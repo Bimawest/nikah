@@ -959,7 +959,6 @@
   .slider {
     width: 100%;
     max-height: 100%;
-    display: none;
   }
 
   .list {
@@ -1000,35 +999,37 @@
   }
 
   .sliding {
-      display: flex;
-      overflow-x: scroll;
-      width: 100%;
-      z-index: 9999;
-    }
+  display: none;
+  position: fixed;
+  bottom: 60px; /* Angkat sedikit agar tombol container di bawahnya terlihat */
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 20px 0;
+  z-index: 10000;
+  overflow-x: scroll;
+}
 
-    .sliding img {
-      width: 200px; /* Sesuaikan ukuran gambar */
-      height: 150px; /* Sesuaikan ukuran gambar */
-      margin-right: 10px;
-    }
+/* Tambahkan pointer agar user tahu foto bisa diklik */
+.slider .item img {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
 
-    .sliding img:last-child {
-      margin-right: 0;
-    }
+.slider .item img:hover {
+  transform: scale(1.05);
+}
 
-    .tombol-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
-    .tombol {
-      margin-left: 10px;
-      padding: 5px 10px;
-      background-color: #f1f1f1;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
+.tombol-container {
+  display: none; /* Sembunyikan di awal */
+  justify-content: center; /* Pusatkan tombol agar lebih rapi di mobile */
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-bottom: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10001; /* Pastikan di atas .sliding */
+}
 
   footer .container {
     position: relative;
@@ -2651,26 +2652,41 @@
 
   <!-- script animasi sliding -->
   <script>
-    // Zoom In
-    document.getElementById("zoom-in").addEventListener("click", function() {
-      // Logic untuk memperbesar gambar
-    });
+    document.addEventListener("DOMContentLoaded", function () {
+  const sliderGrid = document.querySelector('.slider'); // Grid foto utama
+  const slidingGallery = document.querySelector('.sliding'); // Galeri horizontal
+  const controls = document.querySelector('.tombol-container'); // Wadah tombol
+  const items = document.querySelectorAll('.slider .item img');
+  const closeBtn = document.getElementById('tutup');
 
-    // Zoom Out
-    document.getElementById("zoom-out").addEventListener("click", function() {
-      // Logic untuk memperkecil gambar
+  // Fungsi saat foto di grid diklik
+  items.forEach(img => {
+    img.addEventListener('click', function () {
+      // Sembunyikan grid utama
+      sliderGrid.style.display = 'none';
+      
+      // Munculkan galeri horizontal dan tombol kontrol
+      slidingGallery.style.display = 'flex';
+      controls.style.display = 'flex';
+      
+      // Scroll ke posisi galeri agar user langsung melihatnya
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     });
+  });
 
-    // Bagikan
-    document.getElementById("bagikan").addEventListener("click", function() {
-      // Logic untuk membagikan gambar
-    });
-
-    // Tutup
-    document.getElementById("tutup").addEventListener("click", function() {
-      // Logic untuk menyembunyikan galeri gambar
-      document.querySelector(".sliding").style.display = "none";
-    });
+  // Fungsi saat tombol TUTUP diklik
+  closeBtn.addEventListener("click", function () {
+    // Sembunyikan galeri dan tombol
+    slidingGallery.style.display = "none";
+    controls.style.display = "none";
+    
+    // Munculkan kembali grid utama
+    sliderGrid.style.display = "block";
+    
+    // Opsional: scroll kembali ke posisi slider
+    sliderGrid.scrollIntoView({ behavior: 'smooth' });
+  });
+});
   </script>
 
 </body>
