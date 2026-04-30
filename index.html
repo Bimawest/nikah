@@ -79,6 +79,17 @@
     height: auto;
   }
 
+  .hero {
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+
+  .hero-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* Agar tombol tidak bisa diklik lagi saat transparan */
+  }
+
   .profile-icon {
     background-image: -webkit-linear-gradient(#e50914, #e50944);
     /* Prefix untuk Safari */
@@ -2452,11 +2463,15 @@
     // Event listener untuk tombol "OPEN INVITATION"
     const openInvitationButton = document.getElementById("tombolFullscreen");
     const audio = document.getElementById('song'); // Ambil elemen audio
+    const heroSection = document.querySelector('.hero');
 
     if (openInvitationButton) {
       openInvitationButton.addEventListener("click", function () {
         requestFullscreen();
         enableScroll(); // Aktifkan scroll setelah tombol diklik
+
+        // Tambahkan class untuk sembunyi
+        heroSection.style.display = 'none';
 
         // Pastikan audio.play() dipanggil langsung setelah interaksi pengguna
         audio.play().then(() => {
