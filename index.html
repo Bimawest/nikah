@@ -35,11 +35,93 @@ body {
   overflow: hidden;
 }
 
-/* Pastikan slider tidak menutupi footer */
+/* Container Utama */
 .slider {
-  width: 100%;
-  height: auto; /* Jangan gunakan max-height 100% jika ingin konten memanjang */
-  margin-bottom: 50px;
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* List yang digeser */
+.slider .list {
+    display: flex;
+    position: absolute;
+    /* transition harus ada agar gerakannya halus */
+    transition: transform 0.5s ease-in-out;
+    left: 0;
+}
+
+/* Item Slider Atas */
+.slider .list .item {
+    /* KUNCI: Lebar harus konsisten */
+    width: 440px; 
+    height: 100%;
+    flex-shrink: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.slider .list .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    /* Border dihapus agar tidak ada garis hitam */
+    border: none; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.slider .list .item:nth-child(9) img {
+    transform: translateY(100px);
+}
+
+/* TOMBOL NAVIGASI */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 100;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.nav-btn:hover { background: rgba(0, 0, 0, 0.8); }
+.prev { left: 20px; }
+.next { right: 20px; }
+
+/* Thumbnail Bawah */
+.sliding {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 20px;
+    justify-content: flex-start;
+}
+
+.sliding img {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.sliding img.active {
+    opacity: 1;
+    border: 3px solid #ffcc00; /* Warna kuning biar kelihatan mana yang aktif */
 }
 
 
@@ -965,81 +1047,6 @@ body {
     font-weight: bold;
     color: white;
   }
-
-  .slider {
-    width: 100%;
-    max-height: 100%;
-  }
-
-  .list {
-    column-count: 3;
-  }
-
-  .item {
-    opacity: 0;
-    /* Menyembunyikan item secara default */
-    transition: opacity 0.5s ease;
-    /* Menambahkan transisi untuk efek yang lebih halus */
-  }
-
-  .item img {
-    width: 100%;
-    border-radius: 10px;
-    padding: 2px;
-    border: 1px black groove;
-  }
-
-  .item.show {
-    animation: slide 2s ease-in-out forwards;
-    transform: scale(1);
-    opacity: 1;
-    /* Pastikan opacity menjadi 1 saat ditampilkan */
-  }
-
-  @keyframes slide {
-    0% {
-      transform: scale(0.0);
-      opacity: 0;
-    }
-
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-
-  .sliding {
-  display: none;
-  position: fixed;
-  bottom: 60px; /* Angkat sedikit agar tombol container di bawahnya terlihat */
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  padding: 20px 0;
-  z-index: 10000;
-  overflow-x: scroll;
-}
-
-/* Tambahkan pointer agar user tahu foto bisa diklik */
-.slider .item img {
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.slider .item img:hover {
-  transform: scale(1.05);
-}
-
-.tombol-container {
-  display: none; /* Sembunyikan di awal */
-  justify-content: center; /* Pusatkan tombol agar lebih rapi di mobile */
-  background-color: rgba(0, 0, 0, 0.9);
-  padding-bottom: 20px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 10001; /* Pastikan di atas .sliding */
-}
 
   footer {
   margin-top: auto; /* Mendorong footer ke bawah jika konten sedikit */
@@ -2061,51 +2068,46 @@ footer .container {
   </section>
   <!-- akhir halaman ucapan -->
 
-  <div class="slider">
+  <div class="slider" id="mainCarousel">
+    <button class="nav-btn prev" onclick="prevSlide()">&#10094;</button>
+    <button class="nav-btn next" onclick="nextSlide()">&#10095;</button>
     <div class="list">
-      <div class="item" style="--position: 1"><img src="img/pre.jpg" alt=""></div>
-      <div class="item" style="--position: 2"><img src="img/pre2.jpg" alt=""></div>
-      <div class="item" style="--position: 3"><img src="img/map1.jpg" alt=""></div>
-      <div class="item" style="--position: 4"><img src="img/map2.jpg" alt=""></div>
-      <div class="item" style="--position: 5"><img src="img/couple.jpg" alt=""></div>
-      <div class="item" style="--position: 6"><img src="img/couple2.jpg" alt=""></div>
-      <div class="item" style="--position: 7"><img src="img/photo4.jpg" alt=""></div>
-      <div class="item" style="--position: 8"><img src="img/photo6.jpg" alt=""></div>
-
-      <div class="item" style="--position: 1"><img src="img/episode1.jpg" alt=""></div>
-      <div class="item" style="--position: 2"><img src="img/episode2.jpg" alt=""></div>
-      <div class="item" style="--position: 3"><img src="img/berita.jpg" alt=""></div>
-      <div class="item" style="--position: 4"><img src="img/photo.jpg" alt=""></div>
-      <div class="item" style="--position: 5"><img src="img/photo1.jpg" alt=""></div>
-      <div class="item" style="--position: 6"><img src="img/photo2.jpg" alt=""></div>
-      <div class="item" style="--position: 7"><img src="img/photo3.jpg" alt=""></div>
-      <div class="item" style="--position: 8"><img src="img/photo5.jpg" alt=""></div>
+      <div class="item" style="--position: 1"><img src="img/pre.jpg" alt="photo 1"></div>
+      <div class="item" style="--position: 2"><img src="img/pre2.jpg" alt="photo 2"></div>
+      <div class="item" style="--position: 3"><img src="img/map1.jpg" alt="photo 3"></div>
+      <div class="item" style="--position: 4"><img src="img/map2.jpg" alt="photo 4"></div>
+      <div class="item" style="--position: 5"><img src="img/couple.jpg" alt="photo 5"></div>
+      <div class="item" style="--position: 6"><img src="img/couple2.jpg" alt="photo 6"></div>
+      <div class="item" style="--position: 7"><img src="img/episode1.jpg" alt="photo 7"></div>
+      <div class="item" style="--position: 8"><img src="img/episode2.jpg" alt="photo 8"></div>
+      <div class="item" style="--position: 9"><img src="img/berita.jpg" alt="photo 9"></div>
+      <div class="item" style="--position: 10"><img src="img/photo.jpg" alt="photo 10"></div>
+      <div class="item" style="--position: 11"><img src="img/photo1.jpg" alt="photo 11"></div>
+      <div class="item" style="--position: 12"><img src="img/photo2.jpg" alt="photo 12"></div>
+      <div class="item" style="--position: 13"><img src="img/photo3.jpg" alt="photo 13"></div>
+      <div class="item" style="--position: 14"><img src="img/photo4.jpg" alt="photo 14"></div>
+      <div class="item" style="--position: 15"><img src="img/photo5.jpg" alt="photo 15"></div>
+      <div class="item" style="--position: 16"><img src="img/photo6.jpg" alt="photo 16"></div>
     </div>
   </div>
-  <div class="sliding">
-    <img src="img/pre.jpg" alt="">
-    <img src="img/pre2.jpg" alt="">
-    <img src="img/map1.jpg" alt="">
-    <img src="map2.jpg" alt="">
-    <img src="couple.jpg" alt="">
-    <img src="couple2.jpg" alt="">
-    <img src="episode1.jpg" alt="">
-    <img src="episode2.jpg" alt="">
-    <img src="berita.jpg" alt="">
-    <img src="photo.jpg" alt="">
-    <img src="photo1.jpg" alt="">
-    <img src="photo2.jpg" alt="">
-    <img src="photo3.jpg" alt="">
-    <img src="photo4.jpg" alt="">
-    <img src="photo5.jpg" alt="">
-    <img src="photo6.jpg" alt="">
-  </div>
 
-  <div class="tombol-container">
-    <button class="tombol" id="zoom-in">+</button>
-    <button class="tombol" id="zoom-out">-</button>
-    <button class="tombol" id="bagikan">Bagikan</button>
-    <button class="tombol" id="tutup">Tutup</button>
+  <div class="sliding" id="thumbBar">
+    <img src="img/pre.jpg" alt="photo 1" onclick="jumpToSlide(1)">
+    <img src="img/pre2.jpg" alt="photo 2" onclick="jumpToSlide(2)">
+    <img src="img/map1.jpg" alt="photo 3" onclick="jumpToSlide(3)">
+    <img src="img/map2.jpg" alt="photo 4" onclick="jumpToSlide(4)">
+    <img src="img/couple.jpg" alt="photo 5" onclick="jumpToSlide(5)">
+    <img src="img/couple2.jpg" alt="photo 6" onclick="jumpToSlide(6)">
+    <img src="img/episode1.jpg" alt="photo 7" onclick="jumpToSlide(7)">
+    <img src="img/episode2.jpg" alt="photo 8" onclick="jumpToSlide(8)">
+    <img src="img/berita.jpg" alt="photo 9" onclick="jumpToSlide(9)">
+    <img src="img/photo.jpg" alt="photo 10" onclick="jumpToSlide(10)">
+    <img src="img/photo1.jpg" alt="photo 11" onclick="jumpToSlide(11)">
+    <img src="img/photo2.jpg" alt="photo 12" onclick="jumpToSlide(12)">
+    <img src="img/photo3.jpg" alt="photo 13" onclick="jumpToSlide(13)">
+    <img src="img/photo4.jpg" alt="photo 14" onclick="jumpToSlide(14)">
+    <img src="img/photo5.jpg" alt="photo 15" onclick="jumpToSlide(15)">
+    <img src="img/photo6.jpg" alt="photo 16" onclick="jumpToSlide(16)">
   </div>
 
   <footer>
@@ -2685,44 +2687,57 @@ footer .container {
   </script>
 
   <!-- script animasi sliding -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-  const sliderGrid = document.querySelector('.slider'); // Grid foto utama
-  const slidingGallery = document.querySelector('.sliding'); // Galeri horizontal
-  const controls = document.querySelector('.tombol-container'); // Wadah tombol
-  const items = document.querySelectorAll('.slider .item img');
-  const closeBtn = document.getElementById('tutup');
+  \<script>
+    const list = document.querySelector('.slider .list');
+    const thumbs = document.querySelectorAll('.sliding img');
+    let activeIndex = 0;
 
-  // Fungsi saat foto di grid diklik
-  items.forEach(img => {
-    img.addEventListener('click', function () {
-      // Sembunyikan grid utama
-      sliderGrid.style.display = 'none';
-      
-      // Munculkan galeri horizontal dan tombol kontrol
-      slidingGallery.style.display = 'flex';
-      controls.style.display = 'flex';
-      
-      // Scroll ke posisi galeri agar user langsung melihatnya
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    });
-  });
+    // KUNCI SINKRON: Samakan angka ini dengan lebar .item di CSS (300px)
+    const itemWidth = 440; 
 
-  // Fungsi saat tombol TUTUP diklik
-  closeBtn.addEventListener("click", function () {
-    // Sembunyikan galeri dan tombol
-    slidingGallery.style.display = "none";
-    controls.style.display = "none";
-    
-    // Munculkan kembali grid utama
-    sliderGrid.style.display = "block";
-    
-    // Opsional: scroll kembali ke posisi slider
-    sliderGrid.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-  </script>
+    function updateSlider() {
+        // Hitung berapa pixel harus geser
+        // Kita tambah offset agar gambar yang aktif berada di tengah layar
+        const containerWidth = document.querySelector('.slider').offsetWidth;
+        const centerOffset = (containerWidth / 2) - (itemWidth / 2);
+        const moveDistance = -(activeIndex * itemWidth) + centerOffset;
 
+        // Geser slider atas (Gunakan px!)
+        list.style.transform = `translateX(${moveDistance}px)`;
+
+        // Sinkronkan dengan thumbnail bawah
+        thumbs.forEach((img, index) => {
+            if (index === activeIndex) {
+                img.classList.add('active');
+                // Scroll thumbnail otomatis ke tengah bar
+                img.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            } else {
+                img.classList.remove('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        activeIndex = (activeIndex + 1) % thumbs.length;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        activeIndex = (activeIndex - 1 + thumbs.length) % thumbs.length;
+        updateSlider();
+    }
+
+    function jumpToSlide(n) {
+        // n-1 karena urutan array dimulai dari 0
+        activeIndex = n - 1;
+        updateSlider();
+    }
+
+    // Jalankan saat pertama kali buka agar rapi di tengah
+    window.onload = updateSlider;
+    // Jalankan saat resize layar agar tetap di tengah
+    window.onresize = updateSlider;
+</script>
 </body>
 
 </html>
