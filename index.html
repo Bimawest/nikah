@@ -23,15 +23,24 @@
 </head>
 
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
-    height: 100vh;
-    background-color: black;
-    overflow: hidden;
-    /* Mencegah scroll di awal */
-  }
+  /* Cari bagian ini di CSS kamu dan ubah */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh; /* Gunakan min-height, bukan height tetap */
+  background-color: black;
+  display: flex;
+  flex-direction: column; /* Membantu footer tetap di bawah */
+}
+
+/* Pastikan slider tidak menutupi footer */
+.slider {
+  width: 100%;
+  height: auto; /* Jangan gunakan max-height 100% jika ingin konten memanjang */
+  margin-bottom: 50px;
+}
+
 
   #video-container {
     position: relative;
@@ -225,12 +234,12 @@
   }
 
   #bg1 {
-    background-image: url('pre.jpg');
+    background-image: url('/img/pre.jpg');
     /* Ganti dengan URL gambar pertama */
   }
 
   #bg2 {
-    background-image: url('pre2.jpg');
+    background-image: url('img/pre2.jpg');
     /* Ganti dengan URL gambar kedua */
   }
 
@@ -409,7 +418,7 @@
   }
 
   .person:nth-child(2) img {
-    transform: translateX(100px);
+    transform: translateX(30px);
     animation: fadeInLeft 2s forwards;
     /* Menggunakan keyframes */
   }
@@ -501,7 +510,7 @@
   .event-image {
     min-width: 150px;
     height: 150px;
-    background-image: url('map1.jpg');
+    background-image: url('img/map1.jpg');
     /* Placeholder untuk gambar */
     background-size: cover;
     background-position-y: -53px;
@@ -519,7 +528,7 @@
   .event-image1 {
     min-width: 150px;
     height: 150px;
-    background-image: url('map2.jpg');
+    background-image: url('img/map2.jpg');
     /* Placeholder untuk gambar */
     background-size: cover;
     background-position-y: -53px;
@@ -635,7 +644,7 @@
   }
 
   #bri {
-    background-image: url('debit1.jpg');
+    background-image: url('debit2.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     opacity: 0;
@@ -998,13 +1007,53 @@
     }
   }
 
-  footer .container {
-    position: relative;
-    font-family: Times New Roman;
-    padding: 0px;
-    background-color: white;
-    color: black;
-  }
+  .sliding {
+  display: none;
+  position: fixed;
+  bottom: 60px; /* Angkat sedikit agar tombol container di bawahnya terlihat */
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 20px 0;
+  z-index: 10000;
+  overflow-x: scroll;
+}
+
+/* Tambahkan pointer agar user tahu foto bisa diklik */
+.slider .item img {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.slider .item img:hover {
+  transform: scale(1.05);
+}
+
+.tombol-container {
+  display: none; /* Sembunyikan di awal */
+  justify-content: center; /* Pusatkan tombol agar lebih rapi di mobile */
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-bottom: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10001; /* Pastikan di atas .sliding */
+}
+
+  footer {
+  margin-top: auto; /* Mendorong footer ke bawah jika konten sedikit */
+  width: 100%;
+  background-color: white;
+  z-index: 100; /* Pastikan di atas background tapi di bawah modal/sliding */
+}
+
+footer .container {
+  /* Hapus position: relative yang mungkin mengganggu alur dokumen */
+  background-color: white;
+  color: black;
+  text-align: center;
+}
+
 
   footer a {
     color: black;
@@ -1852,7 +1901,7 @@
     <div class="background-image" id="bg2"></div>
     <img src="fixnikah.png" alt="">
     <div class="box">
-      <h2>Bima & Filsah: <br> sebelum hari H</h2>
+      <h2>The Wedding Of <br> Bima & Filsah</h2>
       <p><span class="merah">coming soon </span><span class="tgl">15 Juni 2026</span></p>
       <p class="hastag">
         <span>#getmarried</span>
@@ -1866,7 +1915,7 @@
 
   <section class="poster-container">
     <div class="poster">
-      <img src="couple2.jpg" alt="Poster Bima & Filsah">
+      <img src="img/couple2.jpg" alt="Poster Bima & Filsah">
     </div>
     <div class="info">
       <h1 class="title">Bima & Filsah</h1>
@@ -1892,7 +1941,7 @@
 
   <section class="berita">
     <h2>Breaking News</h2>
-    <img src="berita.jpg" alt="Foto Pre-Wedding">
+    <img src="img/berita.jpg" alt="Foto Pre-Wedding">
     <p>Hai semuanya! Ada kabar gembira nih, kita mau ngabarin kalau kita bakal segera menikah!</p>
     <p>Tapi, maaf banget ya kalau nggak bisa ngundang kalian semua. Rencananya, kita bakal ngadain pernikahan yang
       lebih private di korea selatan🤪, cuma sama keluarga dan sahabat terdekat.</p>
@@ -1906,19 +1955,19 @@
 
     <div class="couple-info">
       <div class="person">
-        <img src="bima.jpg" alt="M. Bima Rizki">
+        <img src="img/Bima.jpg" alt="M. Bima Rizki">
         <h2>M. Bima Rizki</h2>
         <p>Putra dari Bapak ....... dan Ibu ....</p>
       </div>
       <div class="person">
-        <img src="Filsah.jpg" alt="Filsah Nurul Hidayah (Filsah)">
-        <h2>Filsah Nurul Hidayah (Filsah)</h2>
+        <img src="img/Filsah.jpg" alt="Filsah Nurul Hidayah (icha)">
+        <h2>Filsah Nurul Hidayah (icha)</h2>3
         <p>Putri dari Bapak ..........dan Ibu ..........</p>
       </div>
     </div>
 
     <div class="couple-image">
-      <img src="couple.jpg" alt="Bride and Groom Together">
+      <img src="img/couple.jpg" alt="Bride and Groom Together">
     </div>
   </section>
 
@@ -1926,23 +1975,11 @@
     <h2>Timeline & Lokasi</h2>
 
     <div class="event">
-      <div class="event-image">Gambar Akad</div>
+      <div class="event-image"></div>
       <div class="event-details">
         <span class="event-type">Akad Nikah</span>
         <div class="event-date">15 Juni 2026</div>
         <div class="event-time">08.00 s.d 10.00 <span style="color: #f96d00;">#WITA</span></div>
-      </div>
-    </div>
-    <div class="event-location">Bertempat di Kediaman Mempelai Wanita - Jl. .... .... Komplek ....
-      ..... Kota ..... Kalimantan Timur</div>
-    <a href="#" class="google-maps-link">Buka Google Maps &gt;&gt;</a>
-
-    <div class="event">
-      <div class="event-image1">Gambar Resepsi</div>
-      <div class="event-details">
-        <span class="event-type">Resepsi</span>
-        <div class="event-date">15 Juni 2026</div>
-        <div class="event-time">12.00 s.d 16.00 <span style="color: #f96d00;">#WITA</span></div>
       </div>
     </div>
     <div class="event-location">Bertempat di Kediaman Mempelai Wanita - Jl. .... .... Komplek ....
@@ -1964,7 +2001,7 @@
         <div class="col-md-6">
           <ul class="list-group">
             <li id="bri" class="list-group-item">
-              <div id="Marlisa" class="fw-bold">BRI</div>
+              <div id="Marlisa" class="fw-bold">Mandiri</div>
               Filsah
               <br>9876543210
               <button class="btn btn-sm btn-primary" onclick="copyToClipboard('9876543210')">Salin</button>
@@ -2025,21 +2062,49 @@
 
   <div class="slider">
     <div class="list">
-      <div class="item" style="--position: 1"><img src="pre.jpg" alt=""></div>
-      <div class="item" style="--position: 2"><img src="pre2.jpg" alt=""></div>
-      <div class="item" style="--position: 3"><img src="map1.jpg" alt=""></div>
-      <div class="item" style="--position: 4"><img src="map2.jpg" alt=""></div>
-      <div class="item" style="--position: 5"><img src="couple.jpg" alt=""></div>
-      <div class="item" style="--position: 6"><img src="couple2.jpg" alt=""></div>
+      <div class="item" style="--position: 1"><img src="img/pre.jpg" alt=""></div>
+      <div class="item" style="--position: 2"><img src="img/pre2.jpg" alt=""></div>
+      <div class="item" style="--position: 3"><img src="img/map1.jpg" alt=""></div>
+      <div class="item" style="--position: 4"><img src="img/map2.jpg" alt=""></div>
+      <div class="item" style="--position: 5"><img src="img/couple.jpg" alt=""></div>
+      <div class="item" style="--position: 6"><img src="img/couple2.jpg" alt=""></div>
+      <div class="item" style="--position: 7"><img src="img/photo4.jpg" alt=""></div>
+      <div class="item" style="--position: 8"><img src="img/photo6.jpg" alt=""></div>
 
-      <div class="item" style="--position: 1"><img src="episode1.jpg" alt=""></div>
-      <div class="item" style="--position: 2"><img src="episode2.jpg" alt=""></div>
-      <div class="item" style="--position: 3"><img src="berita.jpg" alt=""></div>
-      <div class="item" style="--position: 4"><img src="photo.jpg" alt=""></div>
-      <div class="item" style="--position: 5"><img src="photo1.jpg" alt=""></div>
-      <div class="item" style="--position: 6"><img src="photo2.jpg" alt=""></div>
+      <div class="item" style="--position: 1"><img src="img/episode1.jpg" alt=""></div>
+      <div class="item" style="--position: 2"><img src="img/episode2.jpg" alt=""></div>
+      <div class="item" style="--position: 3"><img src="img/berita.jpg" alt=""></div>
+      <div class="item" style="--position: 4"><img src="img/photo.jpg" alt=""></div>
+      <div class="item" style="--position: 5"><img src="img/photo1.jpg" alt=""></div>
+      <div class="item" style="--position: 6"><img src="img/photo2.jpg" alt=""></div>
+      <div class="item" style="--position: 7"><img src="img/photo3.jpg" alt=""></div>
+      <div class="item" style="--position: 8"><img src="img/photo5.jpg" alt=""></div>
     </div>
   </div>
+  <div class="sliding">
+    <img src="img/pre.jpg" alt="">
+    <img src="img/pre2.jpg" alt="">
+    <img src="img/map1.jpg" alt="">
+    <img src="map2.jpg" alt="">
+    <img src="couple.jpg" alt="">
+    <img src="couple2.jpg" alt="">
+    <img src="episode1.jpg" alt="">
+    <img src="episode2.jpg" alt="">
+    <img src="berita.jpg" alt="">
+    <img src="photo.jpg" alt="">
+    <img src="photo1.jpg" alt="">
+    <img src="photo2.jpg" alt="">
+    <img src="photo3.jpg" alt="">
+    <img src="photo4.jpg" alt="">
+    <img src="photo5.jpg" alt="">
+    <img src="photo6.jpg" alt="">
+  </div>
+
+  <div class="tombol-container">
+    <button class="tombol" id="zoom-in">+</button>
+    <button class="tombol" id="zoom-out">-</button>
+    <button class="tombol" id="bagikan">Bagikan</button>
+    <button class="tombol" id="tutup">Tutup</button>
   </div>
 
   <footer>
@@ -2092,6 +2157,17 @@
       { id: 'sticker8', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker8.jpg' },
       { id: 'sticker9', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker9.jpg' },
       { id: 'sticker10', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker10.gif' },
+      { id: 'sticker11', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker11.gif' },
+      { id: 'sticker12', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker12.gif' },
+      { id: 'sticker13', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker13.gif' },
+      { id: 'sticker14', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker14.jpg' },
+      { id: 'sticker15', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker15.jpg' },
+      { id: 'sticker16', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker16.gif' },
+      { id: 'sticker17', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker17.gif' },
+      { id: 'sticker18', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker18.gif' },
+      { id: 'sticker19', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker19.gif' },
+      { id: 'sticker20', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker20.jpg' },
+      { id: 'sticker21', url: 'https://bimawest.github.io/3d-wedding/images/temp/sticker21.gif' },
     ];
 
     let selectedStickerUrl = ''; // To store the URL of the selected sticker
@@ -2366,31 +2442,26 @@
 
   <!-- script vidio intro -->
   <script>
-    const body = document.body;
-    const video = document.getElementById('intro-video');
-    const videoContainer = document.getElementById('video-container');
-    const fadeOutDuration = 2; // Durasi fade out dalam detik
+  const video = document.getElementById('intro-video');
+  const videoContainer = document.getElementById('video-container');
+  const fadeOutDuration = 2;
 
-    video.addEventListener('ended', () => {
-      // Setelah video intro selesai
-      body.style.overflow = 'auto'; // Aktifkan kembali scrolling
-      videoContainer.style.display = 'none'; // Sembunyikan container video
-    });
+  video.addEventListener('ended', () => {
+    // Saat video habis, JANGAN aktifkan scroll dulu
+    videoContainer.style.display = 'none'; 
+  });
 
-    video.addEventListener('timeupdate', () => {
-      const remainingTime = video.duration - video.currentTime;
+  video.addEventListener('timeupdate', () => {
+    const remainingTime = video.duration - video.currentTime;
+    if (remainingTime < fadeOutDuration && remainingTime > 0) {
+      const opacity = remainingTime / fadeOutDuration;
+      videoContainer.style.opacity = opacity;
+    } else if (remainingTime <= 0) {
+      videoContainer.style.display = 'none';
+    }
+  });
+</script>
 
-      // Jika waktu tersisa kurang dari durasi fade out
-      if (remainingTime < fadeOutDuration && remainingTime > 0) {
-        const opacity = remainingTime / fadeOutDuration;
-        videoContainer.style.opacity = opacity;
-      } else if (remainingTime <= 0) {
-        videoContainer.style.display = 'none'; // Sembunyikan container setelah fade out selesai
-      } else {
-        videoContainer.style.opacity = 1; // Pastikan opacity kembali normal jika belum waktunya fade out
-      }
-    });
-  </script>
 
   <script>
     // Variabel untuk menyimpan status scroll
@@ -2594,6 +2665,45 @@
     }
 
     window.addEventListener('scroll', reveal);
+  </script>
+
+  <!-- script animasi sliding -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const sliderGrid = document.querySelector('.slider'); // Grid foto utama
+  const slidingGallery = document.querySelector('.sliding'); // Galeri horizontal
+  const controls = document.querySelector('.tombol-container'); // Wadah tombol
+  const items = document.querySelectorAll('.slider .item img');
+  const closeBtn = document.getElementById('tutup');
+
+  // Fungsi saat foto di grid diklik
+  items.forEach(img => {
+    img.addEventListener('click', function () {
+      // Sembunyikan grid utama
+      sliderGrid.style.display = 'none';
+      
+      // Munculkan galeri horizontal dan tombol kontrol
+      slidingGallery.style.display = 'flex';
+      controls.style.display = 'flex';
+      
+      // Scroll ke posisi galeri agar user langsung melihatnya
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+  });
+
+  // Fungsi saat tombol TUTUP diklik
+  closeBtn.addEventListener("click", function () {
+    // Sembunyikan galeri dan tombol
+    slidingGallery.style.display = "none";
+    controls.style.display = "none";
+    
+    // Munculkan kembali grid utama
+    sliderGrid.style.display = "block";
+    
+    // Opsional: scroll kembali ke posisi slider
+    sliderGrid.scrollIntoView({ behavior: 'smooth' });
+  });
+});
   </script>
 
 </body>
