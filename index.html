@@ -2667,76 +2667,62 @@ footer .container {
     });
   </script>
 
-  <!-- script animasi slider -->
-  <script>
-    const slider = document.querySelectorAll('.slider .item');
-
-    function reveal() {
-      for (let i = 0; i < slider.length; i++) {
-        let windowHeight = window.innerHeight;
-        let elementTop = slider[i].getBoundingClientRect().top;
-        let elementVisible = 150;
-
-        if (elementTop < windowHeight - elementVisible) {
-          slider[i].classList.add('show');
-        }
-      }
-    }
-
-    window.addEventListener('scroll', reveal);
-  </script>
-
   <!-- script animasi sliding -->
-  \<script>
-    const list = document.querySelector('.slider .list');
-    const thumbs = document.querySelectorAll('.sliding img');
-    let activeIndex = 0;
+  <script>
+   /* Script Slider Horizontal yang Sinkron */
+const list = document.querySelector('.slider .list');
+const thumbs = document.querySelectorAll('.sliding img');
+const sliderContainer = document.querySelector('.slider');
+let activeIndex = 0;
+const itemWidth = 440; 
 
-    // KUNCI SINKRON: Samakan angka ini dengan lebar .item di CSS (300px)
-    const itemWidth = 440; 
+function updateSlider(shouldScrollThumb = true) {
+    if (!list || !sliderContainer) return;
 
-    function updateSlider() {
-        // Hitung berapa pixel harus geser
-        // Kita tambah offset agar gambar yang aktif berada di tengah layar
-        const containerWidth = document.querySelector('.slider').offsetWidth;
-        const centerOffset = (containerWidth / 2) - (itemWidth / 2);
-        const moveDistance = -(activeIndex * itemWidth) + centerOffset;
+    const containerWidth = sliderContainer.offsetWidth;
+    const centerOffset = (containerWidth / 2) - (itemWidth / 2);
+    const moveDistance = -(activeIndex * itemWidth) + centerOffset;
 
-        // Geser slider atas (Gunakan px!)
-        list.style.transform = `translateX(${moveDistance}px)`;
+    list.style.transform = `translateX(${moveDistance}px)`;
 
-        // Sinkronkan dengan thumbnail bawah
-        thumbs.forEach((img, index) => {
-            if (index === activeIndex) {
-                img.classList.add('active');
-                // Scroll thumbnail otomatis ke tengah bar
+    thumbs.forEach((img, index) => {
+        if (index === activeIndex) {
+            img.classList.add('active');
+            
+            // PERBAIKAN: scrollIntoView hanya jalan jika shouldScrollThumb bernilai true
+            // Ini mencegah browser melompat ke posisi slider saat baru buka web
+            if (shouldScrollThumb) {
                 img.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            } else {
-                img.classList.remove('active');
             }
-        });
-    }
+        } else {
+            img.classList.remove('active');
+        }
+    });
+}
 
-    function nextSlide() {
-        activeIndex = (activeIndex + 1) % thumbs.length;
-        updateSlider();
-    }
+function nextSlide() {
+    activeIndex = (activeIndex + 1) % thumbs.length;
+    updateSlider(true); // Izinkan scroll thumbnail saat klik navigasi
+}
 
-    function prevSlide() {
-        activeIndex = (activeIndex - 1 + thumbs.length) % thumbs.length;
-        updateSlider();
-    }
+function prevSlide() {
+    activeIndex = (activeIndex - 1 + thumbs.length) % thumbs.length;
+    updateSlider(true);
+}
 
-    function jumpToSlide(n) {
-        // n-1 karena urutan array dimulai dari 0
-        activeIndex = n - 1;
-        updateSlider();
-    }
+function jumpToSlide(n) {
+    activeIndex = n - 1;
+    updateSlider(true);
+}
 
-    // Jalankan saat pertama kali buka agar rapi di tengah
-    window.onload = updateSlider;
-    // Jalankan saat resize layar agar tetap di tengah
-    window.onresize = updateSlider;
+// PERBAIKAN: Saat pertama kali dimuat, matikan fungsi scroll-nya
+window.addEventListener('load', () => {
+    updateSlider(false); // false = jangan paksa browser scroll ke elemen ini
+});
+
+window.addEventListener('resize', () => {
+    updateSlider(false); // false agar saat resize layar tidak melompat
+});
 </script>
 </body>
 
