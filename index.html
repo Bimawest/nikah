@@ -32,6 +32,7 @@ body {
   background-color: black;
   display: flex;
   flex-direction: column; /* Membantu footer tetap di bawah */
+  overflow: hidden;
 }
 
 /* Pastikan slider tidak menutupi footer */
@@ -2128,6 +2129,32 @@ footer .container {
       <i class="bi bi-disc"></i>
     </div>
   </div>
+  
+  <!-- script name generator -->
+  <script>
+  // Gabungkan semua logika penangkap nama agar tidak bentrok
+  window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('to');
+    
+    if (name) {
+      const decodedName = decodeURIComponent(name.replace(/\+/g, ' '));
+      
+      // Update semua elemen yang menampilkan nama tamu (baik class maupun ID)
+      const displays = document.querySelectorAll('.guestName, #guestName');
+      displays.forEach(el => {
+        el.innerText = decodedName;
+      });
+    } else {
+      const displays = document.querySelectorAll('.guestName, #guestName');
+      displays.forEach(el => {
+        el.innerText = "Tamu Undangan";
+      });
+    }
+  });
+</script>
+
+
 
 
   <!-- script ucapan -->
@@ -2592,16 +2619,6 @@ footer .container {
       document.body.removeChild(el);
       alert('Nomor rekening berhasil disalin!');
     }
-  </script>
-
-  <!-- script generator -->
-  <script>
-    // Ambil nama tamu dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const guestName = decodeURIComponent(urlParams.get('to'));
-
-    // Tampilkan nama tamu pada elemen dengan id "guestName"
-    document.getElementById('guestName').textContent = guestName;
   </script>
 
   <!-- script animasi berita -->
