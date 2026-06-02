@@ -144,7 +144,8 @@ body {
     /* Membuat video mengisi seluruh layar */
     overflow: hidden;
     /* Menyembunyikan kontrol video default */
-    margin-top: 20px;
+    transform: translatex(-100%);
+    animation: fadeInRight 2s ease-in-out forwards;
   }
 
   #anim {
@@ -1931,13 +1932,6 @@ footer .container {
       </p>
     </div>
   </section>
-  
-  <div class="anim">
-    <video id="anim" autoplay loop>
-      <source src="anim.mp4" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-  </div>
 
 
   <section class="poster-container">
@@ -1965,6 +1959,13 @@ footer .container {
       </blockquote>
     </div>
   </section>
+  
+  <div class="anim">
+    <video id="anim" autoplay loop>
+      <source src="anim.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
 
   <section class="berita">
     <h2>Breaking News</h2>
@@ -2703,7 +2704,7 @@ footer .container {
   <!-- script animasi pengantin -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const elementsToShow = document.querySelectorAll('h1, .person img, .person p, .person h2, .couple-image img, .poster img, .tagline, .synopsis, .coming-soon, .quote, .event-image, .event-image1, .event-details, .gifts span, .gifts p, #bri');
+      const elementsToShow = document.querySelectorAll('h1, .person img, .person p, .person h2, .couple-image img, .poster img, .tagline, .synopsis, .coming-soon, .quote, .event-image, .event-image1, .event-details, .gifts span, .gifts p, #bri, .anim');
 
       const showElements = (entries, observer) => {
         entries.forEach(entry => {
